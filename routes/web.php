@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\AuthController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,6 +16,12 @@ use App\Http\Controllers\RegisterController;
 
 Route::get('/', function () {
     return view('welcome');
+    
 });
-Route::get('register', [RegisterController::class, 'create'])->middleware('guest');
-Route::post('register', [RegisterController::class, 'store'])->middleware('guest');
+Route::get('register', [RegisterController::class, 'create']);
+Route::post('register', [RegisterController::class, 'store']);
+
+Route::get('login', [AuthController::class, 'create'])->middleware('guest');
+Route::post('login', [AuthController::class, 'store'])->middleware('guest');
+
+Route::post('logout', [AuthController::class, 'destroy'])->middleware('auth');

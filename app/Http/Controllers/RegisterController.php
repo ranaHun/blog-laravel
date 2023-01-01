@@ -15,7 +15,7 @@ class RegisterController extends Controller
     }
     public function create()
     {
-        return view('register.create');
+        return view('auth.register');
     }
     // protected function validator(array $data)
     // {

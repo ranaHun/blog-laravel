@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Providers\RouteServiceProvider;
+use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {

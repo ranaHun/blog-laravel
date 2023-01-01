@@ -1,17 +1,23 @@
 <?php
-namespace App\Http\Controllers;
-use App\Models\Article;
 
-class AdminArticleController extends Controller {
-    public function index()
+namespace App\Http\Controllers;
+
+use Illuminate\View\View;
+use App\Models\Article;
+use App\Models\User;
+
+class AdminArticleController extends Controller
+{
+    public function index(): View
     {
         return view('admin.articles.index', [
-            'posts' => Article::paginate(50)
+            'articles' => Article::with('author')->latest('published_at')->paginate(10)
         ]);
     }
-    public function create()
+    public function create(): View
     {
         return view('admin.articles.create');
+        // return view('admin.articles.create', ['users' => User::authors()->pluck('name', 'id'),]);
     }
 
     public function store()

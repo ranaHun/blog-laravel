@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AdminArticleController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -25,3 +26,6 @@ Route::get('login', [AuthController::class, 'create'])->middleware('guest');
 Route::post('login', [AuthController::class, 'store'])->middleware('guest');
 
 Route::post('logout', [AuthController::class, 'destroy'])->middleware('auth');
+
+// Admin Section
+Route::resource('admin/articles', AdminArticleController::class)->except('show');

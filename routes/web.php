@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminArticleController;
+use App\Http\Controllers\ArticleController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,10 +16,10 @@ use App\Http\Controllers\AdminArticleController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-    
-});
+Route::get('/', [ArticleController::class, 'index'])->name('home');
+Route::get('articles/{article:slug}', [ArticleController::class, 'show']);
+
+
 Route::get('register', [RegisterController::class, 'create']);
 Route::post('register', [RegisterController::class, 'store']);
 
@@ -28,4 +29,6 @@ Route::post('login', [AuthController::class, 'store'])->middleware('guest');
 Route::post('logout', [AuthController::class, 'destroy'])->middleware('auth');
 
 // Admin Section
-Route::resource('admin/articles', AdminArticleController::class)->except('show');
+// Route::middleware('can:admin')->group(function () {
+    Route::resource('admin/articles', AdminArticleController::class)->except('show');
+// });

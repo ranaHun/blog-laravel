@@ -1,10 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 use App\Models\Article;
-use App\Models\User;
 
 class AdminArticleController extends Controller
 {
@@ -17,15 +16,30 @@ class AdminArticleController extends Controller
     public function create(): View
     {
         return view('admin.articles.create');
-        // return view('admin.articles.create', ['users' => User::authors()->pluck('name', 'id'),]);
     }
 
     public function store()
     {
-        Article::create(array_merge($this->validatePost(), [
+        Article::create(array_merge($this->validateArticle(), [
             'user_id' => request()->user()->id
         ]));
 
         return redirect('/');
+    }
+    public function destroy(Article $article)
+    {
+        $article->delete();
+
+        return back()->with('success', 'Article Deleted!');
+    }
+    protected function validateArticle(?Article $article = null): array
+    {
+        $article ??= new Article();
+
+        return request()->validate([
+            'title' => 'required',
+            'slug' => ['required', Rule::unique('articles', 'slug')->ignore($article)],
+            'body' => 'required',
+        ]);
     }
 }

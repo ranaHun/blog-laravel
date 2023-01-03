@@ -31,9 +31,8 @@ export default class GifTool {
      * Tool's initial config
      */
     this.config = {
-      endpoints: config.endpoints || '',
-      buttonContent: config.buttonContent || '',
-      actions: config.actions || [],
+      endpoint: config.endpoint || '',
+      buttonContent: config.buttonContent || ''
     };
 
     /**
@@ -136,5 +135,48 @@ export default class GifTool {
   get data() {
     return this._data;
   }
+
+
+  /**
+    * Specify paste substitutes
+    *
+    * @see {@link https://github.com/codex-team/editor.js/blob/master/docs/tools.md#paste-handling}
+    * @returns {{tags: string[], patterns: object<string, RegExp>, files: {extensions: string[], mimeTypes: string[]}}}
+    */
+  static get pasteConfig() {
+    return {
+      /**
+       * Paste URL of gif into the Editor
+       */
+      patterns: {
+        image: /https?:\/\/\S+\.(gif)(\?[a-z0-9=]*)?$/i,
+      }
+    };
+  }
+
+
+
+
+  /**
+   * Specify paste handlers
+   *
+   * @public
+   * @see {@link https://github.com/codex-team/editor.js/blob/master/docs/tools.md#paste-handling}
+   * @param {CustomEvent} event - editor.js custom paste event
+   *                              {@link https://github.com/codex-team/editor.js/blob/master/types/tools/paste-events.d.ts}
+   * @returns {void}
+   */
+  async onPaste(event) {
+    switch (event.type) {
+      case 'pattern': {
+        const url = event.detail.data;
+
+        this.image = url;
+        break;
+      }
+    }
+  }
+
+
 
 }

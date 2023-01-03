@@ -109,7 +109,7 @@ export default class Ui {
         const span = make('span', 'image-tool__close');
         span.innerHTML = '&times;'
         span.onclick = () => {
-            this.nodes.selectorModalContainer.style.display = 'none';
+            this.closeModal();
         }
         container.appendChild(span);
 
@@ -216,7 +216,7 @@ input[type="checkbox"][id^="myCheckbox"] {
             }
             if (checkedList && checkedList.length > 0) {
                 this.onInsertFile(checkedList[0].value);
-                this.nodes.selectorModalContainer.style.display = 'none';
+                this.closeModal();
             }
         });
 
@@ -257,13 +257,13 @@ input[type="checkbox"][id^="myCheckbox"] {
     }
     getGifsData(searchKey = undefined) {
         const gifListLoader = this.nodes.selectorModalContent.getElementsByClassName('gifListLoader')[0];
-        const gifListElement = this.nodes.selectorModalContent.getElementsByClassName('gifList')[0]
+        this.clearGifList();
         gifListLoader.style.display = 'block';
-        gifListElement.innerHTML = '';
+        const endpoint = this.config.endpoint;
         // Pagination
         const url = searchKey ?
-            `http://localhost:3000/gifs?search_key=${searchKey}&page=1&size=5&rating=g&lang=en` :
-            `http://localhost:3000/gifs?page=1&size=5&rating=g&lang=en`;
+            `${endpoint}/gifs?search_key=${searchKey}&page=1&size=5` :
+            `${endpoint}/gifs?page=1&size=5`;
 
 
         httpGetAsync(url).then(value => {
@@ -287,6 +287,10 @@ input[type="checkbox"][id^="myCheckbox"] {
         };
     }
 
+    clearGifList() {
+        const gifListElement = this.nodes.selectorModalContent.getElementsByClassName('gifList')[0]
+        gifListElement.innerHTML = '';
+    }
     /**
       * Shows an image
       *
@@ -340,6 +344,10 @@ input[type="checkbox"][id^="myCheckbox"] {
         return this.nodes.wrapper;
     }
 
+    closeModal() {
+        this.clearGifList();
+        this.nodes.selectorModalContainer.style.display = 'none';
+    }
 
     /**
  * Changes UI status

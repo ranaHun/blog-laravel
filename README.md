@@ -2,7 +2,19 @@
 
 --------
 ## Features:
-* Admin Panel
+* Authenticate users(login/signup pages + logout button)
+* CR*D  Articles (no updating required)
+* GET and display paginated lists of articles
+* GifTool.js Tools: 
+Provides Gif Blocks for the Editor.js.
+### Routing Guidelines
+- Home page (URL: / )
+    -   List of articles
+    -   Pagination for list of articles
+    -   Sign in/Sign up pages (URL: /login, /register )
+-  Create articles (URL: /admin/articles)
+- Article page for authenticated user (URL: /admin/articles )
+    - Delete article button
 -----------
 # Getting started
 ## Installation
@@ -68,6 +80,7 @@ Run the database seeder and you're done
 # Code overview
 
 ## Dependencies
+### GifTool.js Tools
 
 ## Environment variables
 
@@ -75,4 +88,65 @@ Run the database seeder and you're done
 
 ***Note*** : You can quickly set the database information and other variables in this file and have the application fully working.
 
+# GifTool.js Tools
+## Features
+* Uploading Gif from API
+* Pasting copied content from the web
+## Install
+Manual downloading and connecting
+1. Upload folder `dist` from repository
+2. Add `dist/bundle.js` file to your page.
+
+Then require this script on page with Editor.js through the `<script src=""></script>` tag.
+```
+ <script type="text/javascript" src="js/GifBlockPlugin/dist/bundle.js"></script>
+```
+## Usage
+
+Add a new Tool to the `tools` property of the Editor.js initial config.
+
+```javascript
+const editor = new window.EditorJS({
+                /**
+                 * Id of Element that should contain Editor instance
+                 */
+                holder: 'editorjs',
+                tools: {
+                        GifTool: {
+                                class: GifTool,
+                                config: {
+                                        endpoint: 'http://localhost:3000'
+                                }
+                        }
+                }
+        });
+```
+## Output data
+This Tool returns `data` with following format
+
+| Field          | Type      | Description                     |
+| -------------- | --------- | ------------------------------- |
+| url           | `string`  | image's `url` |
+| caption        | `string`  | image's caption                 |
+
+
+
+```json
+{
+    "type" : "image",
+    "data" : {
+        "url" : "https://www.tesla.com/tesla_theme/assets/img/_vehicle_redesign/roadster_and_semi/roadster/hero.jpg",
+        "caption" : "Roadster // tesla.com",
+    }
+}
+```
+## After Update GifTool
+1. Switch to the GifTool folder
+```
+  cd public\js\GifBlockPlugin
+```
+2. Run this command
+```
+npm run build
+```
 ----------

@@ -2,7 +2,7 @@
 
 <x-form.field>
     @if($form_id)
-    <button type="submit" form='{{$form_id}}' class="bg-gray-400 text-gray-800  uppercase font-semibold text-xs py-2 px-10 rounded-2xl hover:bg-gray-500">
+    <button type="submit" form='{{$form_id}}' id ='dddd' class="savebtn bg-gray-400 text-gray-800  uppercase font-semibold text-xs py-2 px-10 rounded-2xl hover:bg-gray-500">
         {{ $slot }}
     </button>
     @else

@@ -35,7 +35,7 @@ class AdminArticleController extends Controller
             Article::create($dataToSave);
             return response()->noContent();
         } catch (Expectation $e) {
-
+            return response()->json(['message' => 'error message'], 500);
         }
     }
     public function destroy(Article $article)

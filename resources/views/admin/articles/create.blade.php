@@ -1,12 +1,8 @@
 <x-layout>
-        <form id="create-article" method="POST" action="" enctype="multipart/form-data">
-                @csrf
-
-                <x-form.input name="title" required />
-                <x-form.input name="slug" required />
-                <x-form.editor name="body"></x-form.editor>
-                <x-form.button form_id="create-article">Publish</x-form.button>
-        </form>
+        <x-form.input name="title" required />
+        <x-form.input name="slug" required />
+        <x-form.editor name="body"></x-form.editor>
+        <x-form.button form_id="create-article">Publish</x-form.button>
 </x-layout>
 <script>
         const editor = new window.EditorJS({
@@ -24,21 +20,20 @@
                 }
         });
 
-        document.querySelector('#create-article').addEventListener('submit', (e) => {
+
+        $('.savebtn').click(function(e) {
                 e.preventDefault();
-                var formData = new FormData(e.target);
-                console.log(formData)
-                var url = '/admin/articles';
                 editor.save().then((outputData) => {
-                        saveData(formData, outputData)
+                        const title = document.getElementById('title').value;
+                        const slug = document.getElementById('slug').value;
+                        saveData(title, slug, outputData)
 
                 }).catch((error) => {
                         console.log('Saving failed: ', error)
                 });
-
         });
 
-        function saveData(formData, data) {
+        function saveData(title, slug, data) {
                 var url = '/admin/articles';
                 $.ajaxSetup({
                         headers: {
@@ -50,12 +45,21 @@
                         type: 'POST',
                         dataType: 'json',
                         data: {
-                                title: formData.get('title'),
-                                slug: formData.get('slug'),
+                                title: title,
+                                slug: slug,
                                 body: JSON.stringify(data),
                         },
+                        success: function(data) {
+                                window.location.href = url;
+                        },
+                        error: function(data) {
+
+                                var errors = data.responseJSON;
+
+                                alert(errors.message);
+                        }
                 }).done(function(response) {
-                        window.location.href = url;
+                        // window.location.href = url;
                 });
         }
 </script>

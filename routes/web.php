@@ -26,7 +26,7 @@ Route::post('register', [RegisterController::class, 'store']);
 Route::get('login', [AuthController::class, 'create'])->middleware('guest');
 Route::post('login', [AuthController::class, 'store'])->middleware('guest');
 
-Route::post('logout', [AuthController::class, 'destroy'])->middleware('auth');
+Route::post('logout', [AuthController::class, 'logout'])->middleware('auth');
 
 // Admin Section
 // Route::middleware('can:admin')->group(function () {

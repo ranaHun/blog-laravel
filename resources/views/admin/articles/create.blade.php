@@ -18,8 +18,12 @@
                  */
                 holder: 'editorjs',
                 tools: {
-                        image: window.SimpleImage,
-                        GifTool: GifTool
+                        GifTool: {
+                                class: GifTool,
+                                config: {
+                                        endpoint: 'http://localhost:3000'
+                                }
+                        }
                 }
         });
 

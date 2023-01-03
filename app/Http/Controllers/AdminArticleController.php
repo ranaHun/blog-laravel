@@ -33,8 +33,7 @@ class AdminArticleController extends Controller
                 'published_at' => Carbon::now()
             ]);
             Article::create($dataToSave);
-
-            return redirect('/admin/articles')->with('success', 'Article was created');
+            return response()->noContent();
         } catch (Expectation $e) {
 
         }

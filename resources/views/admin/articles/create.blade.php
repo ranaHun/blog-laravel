@@ -1,13 +1,10 @@
-<head>
-        <meta name="csrf-token" content="{{ csrf_token() }}">
-</head>
 <x-layout>
         <form id="create-article" method="POST" action="" enctype="multipart/form-data">
                 @csrf
 
                 <x-form.input name="title" required />
                 <x-form.input name="slug" required />
-                <x-form.editor></x-form.editor>
+                <x-form.editor name="body"></x-form.editor>
                 <x-form.button form_id="create-article">Publish</x-form.button>
         </form>
 </x-layout>
@@ -34,6 +31,7 @@
                 var url = '/admin/articles';
                 editor.save().then((outputData) => {
                         saveData(formData, outputData)
+
                 }).catch((error) => {
                         console.log('Saving failed: ', error)
                 });
@@ -44,7 +42,7 @@
                 var url = '/admin/articles';
                 $.ajaxSetup({
                         headers: {
-                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
                         }
                 });
                 $.ajax({
@@ -57,7 +55,7 @@
                                 body: JSON.stringify(data),
                         },
                 }).done(function(response) {
-                        console.log('received this response: ' + response);
+                        window.location.href = url;
                 });
         }
 </script>

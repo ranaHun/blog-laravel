@@ -11,6 +11,12 @@ class Article extends Model
 
     protected $with = ['author'];
 
+     /**
+     * The attributes that are mass assignable.
+     *
+     */
+    protected $guarded = [];
+
     public function scopeFilter($query, array $filters)
     {
         $query->when($filters['search'] ?? false, fn($query, $search) =>

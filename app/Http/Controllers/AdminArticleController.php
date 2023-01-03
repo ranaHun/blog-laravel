@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;
+use Illuminate\Http\Request;
 use App\Models\Article;
 
 class AdminArticleController extends Controller
@@ -18,11 +19,13 @@ class AdminArticleController extends Controller
         return view('admin.articles.create');
     }
 
-    public function store()
+    public function store(Request $request)
     {
-        Article::create(array_merge($this->validateArticle(), [
-            'user_id' => request()->user()->id
-        ]));
+        $data = $request->all();
+        var_dump($data);die;
+        // Article::create(array_merge($this->validateArticle(), [
+        //     'user_id' => request()->user()->id
+        // ]));
 
         return redirect('/');
     }

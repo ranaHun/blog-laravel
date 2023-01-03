@@ -1,0 +1,32 @@
+{
+  "name": "gifblockplugin",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./dist/bundle.js",
+  "scripts": {
+    "build": "webpack --mode production",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "rana al huniess",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.20.7",
+    "@babel/plugin-transform-runtime": "^7.19.6",
+    "@babel/preset-env": "^7.20.2",
+    "@babel/runtime": "^7.20.7",
+    "babel-loader": "^9.1.0",
+    "css-loader": "^6.7.3",
+    "eslint-loader": "^4.0.2",
+    "postcss": "^8.4.20",
+    "postcss-loader": "^7.0.2",
+    "postcss-nested": "^6.0.0",
+    "postcss-nested-ancestors": "^3.0.0",
+    "style-loader": "^3.3.1",
+    "svg-inline-loader": "^0.8.2",
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.1"
+  },
+  "dependencies": {
+    "@codexteam/icons": "^0.2.0"
+  }
+}

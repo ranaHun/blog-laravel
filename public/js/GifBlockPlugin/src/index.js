@@ -51,6 +51,10 @@ export default class GifTool {
         this.ui.nodes.selectorModalContainer.style.display = "block";
 
       },
+      onInsertFile: (src) => {
+        this.image = src;
+        // this.ui.showPreloader(src);
+      },
       readOnly,
     });
 
@@ -66,10 +70,19 @@ export default class GifTool {
     return this.ui.render(this.data);
   }
 
-  save(blockContent) {
-    return {
-      url: blockContent.value
-    }
+  /**
+   * Return Block data
+   *
+   * @public
+   *
+   * @returns {ImageToolData}
+   */
+  save() {
+    const caption = this.ui.nodes.caption;
+
+    this._data.caption = caption.innerHTML;
+
+    return this.data;
   }
 
   /**
@@ -81,4 +94,47 @@ export default class GifTool {
   appendCallback() {
     this.ui.nodes.fileButton.click();
   }
+
+
+  /**
+ * Set new image url
+ *
+ * @private
+ *
+ * @param {string} file - selected file url
+ */
+  set image(fileUrl) {
+    this._data.fileUrl = fileUrl || '';
+
+    if (fileUrl) {
+      this.ui.fillImage(fileUrl);
+    }
+  }
+
+  /**
+   * Stores all Tool's data
+   *
+   * @private
+   *
+   * @param {ImageToolData} data - data in Image Tool format
+   */
+  set data(data) {
+    this.image = data.fileUrl;
+
+    this._data.caption = data.caption || '';
+    this.ui.fillCaption(this._data.caption);
+  }
+
+
+  /**
+   * Return Tool data
+   *
+   * @private
+   *
+   * @returns {ImageToolData}
+   */
+  get data() {
+    return this._data;
+  }
+
 }

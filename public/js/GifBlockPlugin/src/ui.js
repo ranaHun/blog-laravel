@@ -1,7 +1,7 @@
 import { IconPicture } from '@codexteam/icons';
 
 import { make } from './utils/dom';
-import {httpGetAsync } from './utils/httpService';
+import { httpGetAsync } from './utils/httpService';
 
 /**
  * Class for working with UI:
@@ -18,10 +18,11 @@ export default class Ui {
   * @param {Function} ui.onSelectFile - callback for clicks on Select file button
   * @param {boolean} ui.readOnly - read-only mode flag
   */
-    constructor({ api, config, onSelectFile, readOnly }) {
+    constructor({ api, config, onSelectFile, onInsertFile, readOnly }) {
         this.api = api;
         this.config = config;
         this.onSelectFile = onSelectFile;
+        this.onInsertFile = onInsertFile;
         this.readOnly = readOnly;
         this.nodes = {
             wrapper: make('div', [this.CSS.baseClass, this.CSS.wrapper]),
@@ -214,7 +215,7 @@ input[type="checkbox"][id^="myCheckbox"] {
                 console.log(url);
             }
             if (checkedList && checkedList.length > 0) {
-                this.fillImage(checkedList[0].value);
+                this.onInsertFile(checkedList[0].value);
                 this.nodes.selectorModalContainer.style.display = 'none';
             }
         });
@@ -225,7 +226,7 @@ input[type="checkbox"][id^="myCheckbox"] {
     creatGifListItem(src, i) {
         const listItem = make('li');
         const input = make('input', null, { type: 'checkbox', id: `myCheckbox${i}`, value: src })
-        const label = make('label','image-lable')
+        const label = make('label', 'image-lable')
         label.htmlFor = `myCheckbox${i}`;
 
         const img = make('img')
@@ -251,7 +252,7 @@ input[type="checkbox"][id^="myCheckbox"] {
                 continue
             }
 
-            gifListElement.appendChild(this.creatGifListItem(item.images.original.url, index));
+            gifListElement.appendChild(this.creatGifListItem(item.url, index));
         }
     }
     getGifsData(searchKey = undefined) {
@@ -261,10 +262,11 @@ input[type="checkbox"][id^="myCheckbox"] {
         gifListElement.innerHTML = '';
         // Pagination
         const url = searchKey ?
-            `https://api.giphy.com/v1/gifs/search?api_key=DH4OAUoxUkZeGE7kOEq00I71CVNOshst&q=${searchKey}&limit=2&offset=0&rating=g&lang=en` :
-            `https://api.giphy.com/v1/gifs/trending?api_key=DH4OAUoxUkZeGE7kOEq00I71CVNOshst&limit=10&rating=g`;
-        
-            httpGetAsync(url).then(value => {
+            `http://localhost:3000/gifs?search_key=${searchKey}&page=1&size=5&rating=g&lang=en` :
+            `http://localhost:3000/gifs?page=1&size=5&rating=g&lang=en`;
+
+
+        httpGetAsync(url).then(value => {
             this.fillGifList(value.data);
             gifListLoader.style.display = 'none';
         })
@@ -352,6 +354,16 @@ input[type="checkbox"][id^="myCheckbox"] {
             }
         }
     }
-
+    /**
+     * Shows caption input
+     *
+     * @param {string} text - caption text
+     * @returns {void}
+     */
+    fillCaption(text) {
+        if (this.nodes.caption) {
+            this.nodes.caption.innerHTML = text;
+        }
+    }
 
 }
